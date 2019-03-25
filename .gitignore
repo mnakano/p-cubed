@@ -1,0 +1,4 @@
+*.csv
+*.pdb
+*.concise
+rs126/*.concise
