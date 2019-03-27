@@ -2,4 +2,4 @@
 *.pdb
 *.concise
 rs126/*.concise
-__pychache__/*
+__pycache__/*.pyc
