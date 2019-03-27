@@ -2,3 +2,4 @@
 *.pdb
 *.concise
 rs126/*.concise
+__pychache__/*
