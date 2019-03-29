@@ -1,5 +1,6 @@
 *.csv
 *.pdb
 *.concise
+*.joblib
 rs126/*.concise
 __pycache__/*.pyc
