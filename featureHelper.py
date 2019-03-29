@@ -1,11 +1,8 @@
-def isAlphaHelix(h):
-	if(h == 'H'):
+def isStructureResidue(r):
+	if(r == 'H'):
 		return(1)
-	return(0)
-
-def isBetaSheet(e):
-	if(e == 'E'):
-		return(1)
+	if(r == 'E'):
+		return(2)
 	return(0)
 
 def assignAminoIdx(fragment, amino):
@@ -22,14 +19,14 @@ def getNeighboringAminos(fragment, window, amino):
 	
 	return(neighbors)
 
-def getAvgNeighboringHelixScore(fragment, window, helixScore, amino):
+def getAvgNeighboringSecStructScore(fragment, window, featureScore, amino):
 	sideLen = int(window/2) # length of each side
-	totalHelixScore = 0.0
+	totalScore = 0.0
 	neighbors = []
 	neighbors += assignAminoIdx(fragment[0:sideLen], amino)
 	neighbors += assignAminoIdx(fragment[(sideLen+1):window], amino)
 	
 	for n in neighbors:
-		totalHelixScore += helixScore[n]
+		totalScore += featureScore[n]
 	
-	return(totalHelixScore/(window - 1))
+	return(totalScore/(window - 1))

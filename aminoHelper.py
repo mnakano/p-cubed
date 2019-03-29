@@ -12,8 +12,14 @@ class AminoHelper:
 		self.totalHelixResidue = 0 # Nj
 		self.freqHelix = 0.0 # fj
 		self.helixScoreList = []
+		
+		# sheet related variables
+		self.aminoSheetCount = [0] * 20
+		self.totalSheetResidue = 0
+		self.freqSheet = 0.0
+		self.sheetScoreList = []
 	
-	def calculateHelixScore(self, seqDataset): # seqDataset contains a list of sequences and corresponding secondary structure sequence
+	def calculateSecStructScore(self, seqDataset): # seqDataset contains a list of sequences and corresponding secondary structure sequence
 		
 		sequences = []
 		ssSequences = []
@@ -30,23 +36,31 @@ class AminoHelper:
 			self.totalResidue += len(residueList)
 			# add the number of helix forming resiudes to total helix resiude count.
 			self.totalHelixResidue += ssResidueList.count('H')
+			# add the number of sheet forming resiudes to total sheet resiude count.
+			self.totalSheetResidue += ssResidueList.count('E')
 			
 			# count the occurence of each amino acid in the evaluated aa sequence.
 			for aa in aminoAcids:
 				self.aminoCount[aminoAcids.index(aa)] += residueList.count(aa)
 			
 			# count the occurence of helix forming amino acid in the evaluated aa sequence.
-			for i, h in enumerate(ssResidueList):
-				if(h == 'H'):
+			for i, r in enumerate(ssResidueList):
+				if(r == 'H'):
 					self.aminoHelixCount[aminoAcids.index(residueList[i])] += 1
+				if(r == 'E'):
+					self.aminoSheetCount[aminoAcids.index(residueList[i])] += 1
 		
 		self.freqHelix = self.totalHelixResidue / self.totalResidue # fj
+		self.freqSheet = self.totalSheetResidue / self.totalResidue
 		
 		# calculate helix score for each amino acid and add it to helixScoreList
 		for aa in aminoAcids:
 			freqHelixAmino = self.aminoHelixCount[aminoAcids.index(aa)] / self.aminoCount[aminoAcids.index(aa)] # fij
 			self.helixScoreList.append(freqHelixAmino / self.freqHelix) # Pij = fij / fj
+			freqSheetAmino = self.aminoSheetCount[aminoAcids.index(aa)] / self.aminoCount[aminoAcids.index(aa)]
+			self.sheetScoreList.append(freqSheetAmino / self.freqSheet)
 		
 		self.helixScoreList.append(0.0) # Pij for '-'
+		self.sheetScoreList.append(0.0)
 		
-		return(self.helixScoreList)
+		return([self.helixScoreList, self.sheetScoreList])

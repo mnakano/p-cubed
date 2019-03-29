@@ -8,17 +8,18 @@ import featureHelper as fHelper
 features = []
 
 #data = reader.getRS126Dataset('rs126\\')
-data = reader.getTD9078Dataset('data.csv', 2000)
+data = reader.getTD9078Dataset('data.csv', 500)
 aminoHelper = aHelper.AminoHelper()
-helixScores = aminoHelper.calculateHelixScore(data)
+scores = aminoHelper.calculateSecStructScore(data)
 
-features.append(helixScores)
-print(aminoHelper.totalResidue)
-print(aminoHelper.totalHelixResidue)
+features += scores
+print("Total residues: ", aminoHelper.totalResidue)
+print("Total helix: ", aminoHelper.totalHelixResidue)
 print(aHelper.aminoAcids)
 print(aminoHelper.aminoCount)
 print(aminoHelper.aminoHelixCount)
-print(helixScores)
+print("Helix: ", scores[0])
+print("Sheet: ", scores[1])
 
 ##### build a training dataset #####
 trainingSet = builder.buildTrainingDataset(data, features) # build the training set to predict if a given amino acid in a protein sequence will be part of an alpha helix or not.
@@ -26,10 +27,9 @@ trainingSamples = trainingSet[0] # first element of the list returned from 'buil
 trainingLabels = trainingSet[1] # second element is the list of labels for each training sample. '1' indicates that the amino acid was recorded as 'helix-forming', '0' indicates otherwise.
 
 ##### training the machine learning model #####
-clf = svm.SVC(gamma=0.5)
-clf = svm.SVC(C=1.5, gamma=1.0)
+clf = svm.SVC(decision_function_shape='ovo', gamma='auto')
 clf.fit(trainingSamples, trainingLabels)  
 
-dump(clf, 'clf-td9078-2000.joblib')
+dump(clf, 'clf-td9078-500.joblib')
 
 print('training complete')

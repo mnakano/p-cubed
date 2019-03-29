@@ -6,14 +6,14 @@ def buildTrainingDataset(dataset, features):
 	labels = []
 	for data in dataset:
 
-		learningSet = buildDataSet(data[0], data[1], features, 'H')
+		learningSet = buildDataSet(data[0], data[1], features)
 		samples += learningSet[0]
 		labels += learningSet[1]
 	
 	return([samples, labels])
 
 
-def buildDataSet(aaSeq, ssSeq, features, structType):
+def buildDataSet(aaSeq, ssSeq, features, training=1):
 	amino = aHelper.aminoAcids
 	amino.append('-')
 	kdValues = aHelper.kdValues
@@ -32,6 +32,7 @@ def buildDataSet(aaSeq, ssSeq, features, structType):
 		set = [amino.index(aa)]
 		#set.append(kdValues[amino.index(aa)])
 		set.append(features[0][amino.index(aa)])
+		set.append(features[1][amino.index(aa)])
 		
 		fragment = ''
 		if(i < sideLen):
@@ -44,26 +45,24 @@ def buildDataSet(aaSeq, ssSeq, features, structType):
 			fragment = aaSeq[(i-left):(i+right)]
 
 		#set += getNeighboringAminos(fragment, window, amino)
-		
-		set.append(fHelper.getAvgNeighboringHelixScore(fragment, window, features[0], amino))
-		
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[0], amino))
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[1], amino))
 		tSample.append(set)
 		
-		if(structType == 'H'):
-			label = fHelper.isAlphaHelix(ssSeq[i])
-		else:
-			label = fHelper.isBetaSheet(ssSeq[i])
-		
-		tLabel.append(label)
+		if(training):
+			label = fHelper.isStructureResidue(ssSeq[i])
+			tLabel.append(label)
 	
 	return([tSample, tLabel])	
 
 	
-def buildPredictedSequence(result, structType):
+def buildPredictedSequence(result):
 	predSeq = ''
 	for r in result:
 		if(r == 1):
-			predSeq += structType
+			predSeq += 'H'
+		elif(r == 2):
+			predSeq += 'E'
 		else:
 			predSeq += '-'
 	return(predSeq)
