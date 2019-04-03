@@ -4,3 +4,4 @@
 *.joblib
 rs126/*.concise
 __pycache__/*.pyc
+test/*.concise
