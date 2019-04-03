@@ -1,3 +1,8 @@
+'''
+p3Train.py
+This is the model training protion of the main program. 
+'''
+
 from sklearn import svm # scikit learn module for machine learning
 from joblib import dump, load # module used to save and load trained svm models
 import p3DataReader as reader
@@ -30,6 +35,7 @@ trainingLabels = trainingSet[1] # second element is the list of labels for each 
 clf = svm.SVC(decision_function_shape='ovo', gamma='auto')
 clf.fit(trainingSamples, trainingLabels)  
 
+# Saving the trained model as a .jolib file.
 dump(clf, 'clf-td9078-500.joblib')
 
 print('training complete')

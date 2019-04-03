@@ -1,4 +1,9 @@
 from sklearn import svm # scikit learn module for machine learning
+'''
+p3Main.py
+This is the main progam which predicts secondary structure of unknonw amino acid sequences using a pre-trained model.
+'''
+
 from joblib import dump, load # module used to save and load trained svm models
 import p3DataReader as reader
 import p3DataBuilder as builder

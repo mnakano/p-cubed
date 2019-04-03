@@ -1,3 +1,8 @@
+'''
+p3DataReader.py
+The library contains functions related to reading amino acid sequence data into the program.
+'''
+
 import os # Python's directory navigation module
 import re # Python's regex module
 import pandas

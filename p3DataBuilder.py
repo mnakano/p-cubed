@@ -1,3 +1,8 @@
+'''
+p3DataBuilder.py
+The library contains functions relevant to building training and test datasets.
+'''
+
 import aminoHelper as aHelper
 import featureHelper as fHelper
 

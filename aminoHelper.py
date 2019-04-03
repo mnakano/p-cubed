@@ -1,3 +1,9 @@
+'''
+aminoHelper.py
+AminoHelper class contains infomration related to amino acid properties, 
+and functions that calculates feature scores for every amino acid in a sequence.
+'''
+
 aminoAcids = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V']
 kdValues = [1.8, -4.0, -3.5, -3.5, 2.5, -3.5,  -3.5, 0.4, -3.2, 4.5, 3.8, -3.9, 1.9, 2.8, -1.6, -0.8, -0.7, -0.9, -1.3, 4.2]
 
