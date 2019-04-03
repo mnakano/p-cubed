@@ -21,7 +21,7 @@
 		function loadProtein() {
 		  // asynchronously load the PDB file for the dengue methyl transferase
 		  // from the server and display it in the viewer.
-		  pv.io.fetchPdb('T0861TS005_1', function(structure) {
+		  pv.io.fetchPdb('pdb\\T0861TS005_1.pdb', function(structure) {
 			  // display the protein as cartoon, coloring the secondary structure
 			  // elements in a rainbow gradient.
 			  viewer.cartoon('protein', structure, { color : color.ssSuccession() });
