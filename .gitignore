@@ -6,3 +6,4 @@ rs126/*.concise
 __pycache__/*.pyc
 test/*.concise
 models/*.joblib
+pdb/*.pdb
