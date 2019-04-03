@@ -36,6 +36,6 @@ clf = svm.SVC(decision_function_shape='ovo', gamma='auto')
 clf.fit(trainingSamples, trainingLabels)  
 
 # Saving the trained model as a .jolib file.
-dump(clf, 'clf-td9078-500.joblib')
+dump(clf, 'models\\clf-td9078-500.joblib')
 
 print('training complete')

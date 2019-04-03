@@ -26,6 +26,9 @@ def extractSequenceSet(content):
 	
 	return(seqSet)
 
+'''
+Reads in a dataset of 126 protein sequences obtained from http://www.compbio.dundee.ac.uk/jpred/legacy/data/pred_res/
+'''
 def getRS126Dataset(dir):
 	filenames = os.listdir(dir)
 	rs126Dataset = []
@@ -33,7 +36,10 @@ def getRS126Dataset(dir):
 		content = readFile(dir + filename)
 		rs126Dataset.append(extractSequenceSet(content))
 	return(rs126Dataset)
-	
+
+'''
+Reads in a dataset of 9078 protein sequences obtained from https://www.kaggle.com/alfrandom/protein-secondary-structure
+'''	
 def getTD9078Dataset(filename, numSamples):
 	td9078Dataset = []
 	df = pandas.read_csv(filename)
