@@ -1,0 +1,58 @@
+<html>
+	<head>
+	  <title>P3 3D Structure Viewer</title>
+	  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	  <style>
+		body{ font-family: arial}
+		#viewPanel{}
+		#predictedViewPanel{display: inline-block;}
+		#actualViewPanel{display: inline-block;}
+	  </style>
+	</head>
+	<body>
+		<div id=viewPanel>
+			<div id=predictedViewPanel>
+				<h1>Predicted Structure</h1>
+				<div id=predictedView>
+				</div>
+			</div>
+			<div id=actualViewPanel>
+				<h1>Actual Structure</h1>
+				<div id=actualView>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type='text/javascript' src='bio-pv.min.js'></script>
+	<script type='text/javascript'>
+		// override the default options with something less restrictive.
+		var options = {
+		  width: 600,
+		  height: 600,
+		  antialias: true,
+		  quality : 'medium'
+		};
+		// insert the viewer under the Dom element with id 'gl'.
+		var predicted = pv.Viewer(document.getElementById('predictedView'), options);
+		var actual = pv.Viewer(document.getElementById('actualView'), options);
+		
+		function loadProtein() {
+		  // asynchronously load the PDB file from the server and display it in the viewer.
+		  pv.io.fetchPdb('final.pdb', function(structure) {
+			  // display the protein as cartoon, coloring the secondary structure
+			  // elements in a rainbow gradient.
+			  predicted.cartoon('protein', structure, { color : color.ssSuccession() });
+			  predicted.centerOn(structure);
+		  }); 
+		  
+			pv.io.fetchPdb('1eca.pdb', function(structure){
+				actual.cartoon('protein', structure, { color : color.ssSuccession() });
+				actual.centerOn(structure);
+			});
+		}
+
+		// load the protein structures once the DOM has finished loading. That's
+		// the earliest point the WebGL context is available.
+		document.addEventListener('DOMContentLoaded', loadProtein);
+	</script>
+</html>

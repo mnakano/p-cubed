@@ -1,6 +1,8 @@
 '''
 p3DataReader.py
 The library contains functions related to reading amino acid sequence data into the program.
+
+@author Minoru Nakano
 '''
 
 import os # Python's directory navigation module
@@ -12,6 +14,7 @@ def readFile(filename):
 		lines = f.readlines()
 	return(''.join(lines))
 
+# A function that extracts a consensus amino acid sequence and coresponding secondary structure sequence from a .concise file.
 def extractSequenceSet(content):
 	seqSet = []
 	match = re.search("OrigSeq:(.*)\n", content)
@@ -26,9 +29,8 @@ def extractSequenceSet(content):
 	
 	return(seqSet)
 
-'''
-Reads in a dataset of 126 protein sequences obtained from http://www.compbio.dundee.ac.uk/jpred/legacy/data/pred_res/
-'''
+
+# Reads in a dataset of 126 protein sequences obtained from http://www.compbio.dundee.ac.uk/jpred/legacy/data/pred_res/
 def getRS126Dataset(dir):
 	filenames = os.listdir(dir)
 	rs126Dataset = []
@@ -37,9 +39,7 @@ def getRS126Dataset(dir):
 		rs126Dataset.append(extractSequenceSet(content))
 	return(rs126Dataset)
 
-'''
-Reads in a dataset of 9078 protein sequences obtained from https://www.kaggle.com/alfrandom/protein-secondary-structure
-'''	
+# Reads in a dataset of 9078 protein sequences obtained from https://www.kaggle.com/alfrandom/protein-secondary-structure
 def getTD9078Dataset(filename, numSamples):
 	td9078Dataset = []
 	df = pandas.read_csv(filename)

@@ -45,7 +45,6 @@ def getAvgNeighboringSecStructScore(fragment, window, featureScore, amino):
 	neighbors = []
 	neighbors += assignAminoIdx(fragment[0:sideLen], amino)
 	neighbors += assignAminoIdx(fragment[(sideLen+1):window], amino)
-	
 	for n in neighbors:
 		totalScore += featureScore[n]
 	

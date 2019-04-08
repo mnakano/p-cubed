@@ -18,7 +18,7 @@ def buildTrainingDataset(dataset, features):
 	return([samples, labels])
 
 
-def buildDataSet(aaSeq, ssSeq, features, training=1):
+def buildDataSet(aaSeq, ssSeq, features):
 	amino = aHelper.aminoAcids
 	amino.append('-')
 	kdValues = aHelper.kdValues
@@ -35,7 +35,6 @@ def buildDataSet(aaSeq, ssSeq, features, training=1):
 	for i, aa in enumerate(aaSeq):
 
 		set = [amino.index(aa)]
-		#set.append(kdValues[amino.index(aa)])
 		set.append(features[0][amino.index(aa)])
 		set.append(features[1][amino.index(aa)])
 		
@@ -49,17 +48,51 @@ def buildDataSet(aaSeq, ssSeq, features, training=1):
 		else:
 			fragment = aaSeq[(i-left):(i+right)]
 
-		#set += getNeighboringAminos(fragment, window, amino)
 		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[0], amino))
 		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[1], amino))
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, kdValues, amino))
 		tSample.append(set)
 		
-		if(training):
-			label = fHelper.isStructureResidue(ssSeq[i])
-			tLabel.append(label)
+		# Build the labels to be used for training.
+		label = fHelper.isStructureResidue(ssSeq[i])
+		tLabel.append(label)
 	
-	return([tSample, tLabel])	
+	return([tSample, tLabel])
 
+def buildTestDataset(aaSeq, features):
+	amino = aHelper.aminoAcids
+	amino.append('-')
+	kdValues = aHelper.kdValues
+	
+	testSample = []
+	
+	window = 7
+	sideLen = int(window/2)
+	left = 0
+	right = sideLen + 1
+	
+	for i, aa in enumerate(aaSeq):
+
+		set = [amino.index(aa)]
+		set.append(features[0][amino.index(aa)])
+		set.append(features[1][amino.index(aa)])
+		
+		fragment = ''
+		if(i < sideLen):
+			fragment = '-' * (sideLen - left) + aaSeq[(i-left):(i+right)]
+			left += 1 
+		elif(i > (len(aaSeq) - (sideLen + 1))):
+			right -= 1
+			fragment = aaSeq[(i-left):(i+right)] + '-' * ((sideLen + 1) - right)
+		else:
+			fragment = aaSeq[(i-left):(i+right)]
+
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[0], amino))
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, features[1], amino))
+		set.append(fHelper.getAvgNeighboringSecStructScore(fragment, window, kdValues, amino))
+		testSample.append(set)
+	
+	return(testSample)
 	
 def buildPredictedSequence(result):
 	predSeq = ''

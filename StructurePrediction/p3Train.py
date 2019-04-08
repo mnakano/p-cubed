@@ -12,8 +12,7 @@ import featureHelper as fHelper
 
 features = []
 
-#data = reader.getRS126Dataset('rs126\\')
-data = reader.getTD9078Dataset('data.csv', 500)
+data = reader.getTD9078Dataset('td9078.csv', 1000)
 aminoHelper = aHelper.AminoHelper()
 scores = aminoHelper.calculateSecStructScore(data)
 
@@ -36,6 +35,6 @@ clf = svm.SVC(decision_function_shape='ovo', gamma='auto')
 clf.fit(trainingSamples, trainingLabels)  
 
 # Saving the trained model as a .jolib file.
-dump(clf, 'models\\clf-td9078-500.joblib')
+dump(clf, 'clf-td9078-1000-HP.joblib')
 
 print('training complete')
