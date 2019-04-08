@@ -2,6 +2,7 @@
 *.pdb
 *.concise
 *.joblib
+*.txt
 rs126/*.concise
 __pycache__/*.pyc
 test/*.concise
